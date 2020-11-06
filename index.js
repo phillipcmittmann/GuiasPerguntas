@@ -4,6 +4,8 @@ const app = express();
 // Estou dizendo para o Express usar o EJS como view engine
 app.set('view engine', 'ejs');
 
+app.use(express.static('public'));
+
 app.get("/:nome/:lang", (req, res) => {
     var nome = req.params.nome;
     var lang = req.params.lang;
