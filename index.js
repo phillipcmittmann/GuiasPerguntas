@@ -27,7 +27,10 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
     PerguntaModel
         .findAll({
-            raw: true
+            raw: true,
+            order: [
+                ['id', 'DESC']
+            ]
         })
         .then(perguntas => {
             // Não é necessário extensão
