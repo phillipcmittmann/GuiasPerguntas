@@ -4,7 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const connection = require('./database/database');
-const perguntaModel = require('./database/PerguntaModel');
+const PerguntaModel = require('./database/PerguntaModel');
+const { render } = require('ejs');
 
 connection
     .authenticate()
@@ -20,7 +21,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -36,7 +37,13 @@ app.post("/salvarPergunta", (req, res) => {
     var titulo = req.body.titulo;
     var descricao = req.body.descricao;
 
-    res.send(`Titulo: ${titulo} Descricao: ${descricao}`)
+    PerguntaModel.create({
+        titulo: titulo,
+        descricao: descricao
+    })
+    .then(() => {
+        res.redirect('/');
+    });
 });
 
 app.listen(4000, () => {

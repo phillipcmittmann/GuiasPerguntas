@@ -14,3 +14,5 @@ const PerguntaModel = connection.define('perguntas', {
 });
 
 PerguntaModel.sync({ force: false });
+
+module.exports = PerguntaModel;
