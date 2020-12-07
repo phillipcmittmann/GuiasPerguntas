@@ -25,8 +25,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    // Não é necessário extensão
-    res.render("index");
+    PerguntaModel
+        .findAll({
+            raw: true
+        })
+        .then(perguntas => {
+            // Não é necessário extensão
+            res.render("index", {
+                perguntas: perguntas
+            });
+        });
 });
 
 app.get("/perguntar", (req, res) => {
