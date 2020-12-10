@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const connection = require('./database/database');
 const PerguntaModel = require('./database/PerguntaModel');
-const { render } = require('ejs');
+const RespostaModel = require('./database/RespostaModel');
 
 connection
     .authenticate()
