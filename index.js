@@ -65,13 +65,36 @@ app.get('/pergunta/:id', (req, res) => {
     })
     .then(pergunta => {
         if (pergunta != undefined) {
-            res.render('pergunta', {
-                pergunta: pergunta
+            RespostaModel.findAll({
+                where: { perguntaId: pergunta.id },
+                raw: true,
+                order: [
+                    ['id', 'DESC']
+                ]
+            })
+            .then(respostas => {
+                res.render('pergunta', {
+                    pergunta: pergunta,
+                    respostas: respostas
+                });    
             });
         } else {
             res.redirect('/');
         }
     })
+});
+
+app.post("/responder", (req, res) => {
+    var corpo = req.body.corpo;
+    var perguntaId = req.body.perguntaId;
+
+    RespostaModel.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    })
+    .then(() => {
+        res.redirect(`/pergunta/${perguntaId}`);
+    });
 });
 
 app.listen(4000, () => {
